@@ -269,7 +269,7 @@
 
             // Collect data only from the first table and add to CSV content
             // Here we use document.querySelector to select the first table and then get all its tr elements
-            document.querySelector(".tables-container table:first-of-type").querySelectorAll("tr").forEach((tr, index) => {
+            document.querySelector("table").querySelectorAll("tr").forEach((tr, index) => {
                 if (index > 0) { // Skip header row
                     let cells = tr.querySelectorAll("td");
                     let row = Array.from(cells).map(cell => `"${cell.innerText}"`).join(",");
