@@ -25,7 +25,7 @@
             var dataFiltLow = parseFloat(document.getElementById('dataFiltLow').value);
             var activeLearningRate = parseFloat(document.getElementById('activeLearningRate').value);
             var repositoryReduction = 3;
-            var sqlRate = parseFloat(document.getElementById('sqlRate').value);
+            var sqlRate = parseFloat(document.getElementById('sqlRate').value)-1;
 
             // Input values from the form
             var custodiansValue = parseFloat(document.getElementById('custodiansValue').value);
@@ -842,7 +842,7 @@
                         
                         <div>
                             <label for="sqlRate">SQL Expansion Rate (%):</label>
-                            <input type="number" id="sqlRate" name="sqlRate" step="0.01" value="0.25">
+                            <input type="number" id="sqlRate" name="sqlRate" step="0.01" value="1.25">
                         </div>
                     </div>
                     <br><br>
