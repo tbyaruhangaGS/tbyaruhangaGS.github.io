@@ -24,7 +24,7 @@
             var dataFiltHigh = parseFloat(document.getElementById('dataFiltHigh').value);
             var dataFiltLow = parseFloat(document.getElementById('dataFiltLow').value);
             var activeLearningRate = parseFloat(document.getElementById('activeLearningRate').value);
-            var repositoryReduction = parseFloat(document.getElementById('repositoryReduction').value);
+            var repositoryReduction = 3;
             var sqlRate = parseFloat(document.getElementById('sqlRate').value);
 
             // Input values from the form
@@ -839,10 +839,7 @@
                         </div>
                     </div>
                     <div class="form-row">
-                        <div>
-                            <label for="repositoryReduction">Repository Reduction (number):</label>
-                            <input type="number" id="repositoryReduction" name="repositoryReduction" value="3">
-                        </div>
+                        
                         <div>
                             <label for="sqlRate">SQL Expansion Rate (%):</label>
                             <input type="number" id="sqlRate" name="sqlRate" step="0.01" value="0.25">
