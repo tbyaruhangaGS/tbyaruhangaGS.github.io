@@ -190,7 +190,7 @@
           
 
             // projectManagementHoursRange
-            var projectManagementHoursRange = `${projectManagementLowHoursOutput.toFixed(2)} - ${projectManagementHighHoursOutput.toFixed(2)}`;
+            var projectManagementHoursRange = `${projectManagementLowHoursOutput.toFixed(2)*projectManagementLowMonths} - ${projectManagementHighHoursOutput.toFixed(2)*projectManagementHighMonths }`;
 
             document.getElementById('projectManagementHoursRange').innerText = projectManagementHoursRange;
 
@@ -223,7 +223,7 @@
             var ediscAdvisoryHighCost = ediscAdvisoryHighMonths * ediscAdvisoryHighHoursOutput * edRate;
            
             // ediscAdvisoryHoursRange
-            var ediscAdvisoryHoursRange = `${ediscAdvisoryLowHoursOutput.toFixed(2)} - ${ediscAdvisoryHighHoursOutput.toFixed(2)}`;
+            var ediscAdvisoryHoursRange = `${ediscAdvisoryLowHoursOutput.toFixed(2)*ediscAdvisoryLowMonths} - ${ediscAdvisoryHighHoursOutput.toFixed(2)*ediscAdvisoryHighMonths}`;
 
             document.getElementById('ediscAdvisoryHoursRange').innerText = ediscAdvisoryHoursRange;
 
@@ -265,7 +265,7 @@
             let csvContent = "data:text/csv;charset=utf-8,";
 
             // Add the header row
-            csvContent += ['Service', 'Unit', 'Est Qty.', 'Rate', 'Total Cost'].join(",") + "\r\n";
+            csvContent += ['Service', 'Unit', 'Est Qty.', 'Rate', 'Total Cost', 'Comments'].join(",") + "\r\n";
 
             // Collect data only from the first table and add to CSV content
             // Here we use document.querySelector to select the first table and then get all its tr elements
