@@ -190,7 +190,7 @@
           
 
             // projectManagementHoursRange
-            var projectManagementHoursRange = `${projectManagementLowHoursOutput.toFixed(2)} - ${projectManagementHighHoursOutput.toFixed(2)}`;
+            var projectManagementHoursRange = `${projectManagementLowHoursOutput.toFixed(2)*projectManagementLowMonths} - ${projectManagementHighHoursOutput.toFixed(2)*projectManagementHighMonths}`;
 
             document.getElementById('projectManagementHoursRange').innerText = projectManagementHoursRange;
 
@@ -223,7 +223,7 @@
             var ediscAdvisoryHighCost = ediscAdvisoryHighMonths * ediscAdvisoryHighHoursOutput * edRate;
            
             // ediscAdvisoryHoursRange
-            var ediscAdvisoryHoursRange = `${ediscAdvisoryLowHoursOutput.toFixed(2)} - ${ediscAdvisoryHighHoursOutput.toFixed(2)}`;
+            var ediscAdvisoryHoursRange = `${ediscAdvisoryLowHoursOutput.toFixed(2)*ediscAdvisoryLowMonths} - ${ediscAdvisoryHighHoursOutput.toFixed(2)*ediscAdvisoryHighMonths}`;
 
             document.getElementById('ediscAdvisoryHoursRange').innerText = ediscAdvisoryHoursRange;
 
