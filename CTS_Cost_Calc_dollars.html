@@ -9,7 +9,8 @@
 
     <script>
 
-//test
+//to open the webpage- https://tbyaruhangags.github.io/CTS_Cost_Calc_dollars.html
+
         // This function will be called when the user submits the form
         function calculateCost() {
 
@@ -296,7 +297,7 @@
             //notes
             document.getElementById('dataProcessingInNotes').innerText = `Data Processing (IN, source data with a percentage expansion of ${Math.round(expansionRate * 100)}% at a processing rate of ${formatCurrency(processing_in)} per GB). The expanded number of docs being: ${Math.round(ExpandedNoOfDocs).toLocaleString()}`;
             document.getElementById('dataProcessingOutNotes').innerText = `Data Processing (OUT, expanded data with deduplication ${Math.round(dedup*100)}%) and filtering decreases. When high filtering is applied the reduction is ${Math.round(dataFiltHigh*100)}% when low filtering is applied, the reduction is ${Math.round(dataFiltLow*100)}% at a processing rate of ${formatCurrency(processing_out)} per GB. The range for processed OUT number of docs being: ${Math.round(gigsHigh*av_no_docs).toLocaleString()} - ${Math.round(gigsLow*av_no_docs).toLocaleString()}`;
-            document.getElementById('activeLearningNotes').innerText = "Active Learning at rate of $"+activeLearningRate+" per document";
+            document.getElementById('activeLearningNotes').innerText = `Active Learning at rate of $${activeLearningRate} per document. The range for active docs being: ${Math.round(gigsHigh*av_no_docs).toLocaleString()} - ${Math.round(gigsLow*av_no_docs).toLocaleString()}`;
             document.getElementById('hostingRepoNotes').innerText = `Repository Hosting Fees (data processed IN minus the data processed OUT divided by 3 at a rate of ${formatCurrency(relativityGbHostingRate)} for GB < 1 Terabyte and a rate of ${formatCurrency(relativityGbHostingHighRate)} for GB > 1 Terabyte for ${Math.round(projectDurationMonths)} month(s) per GB)`;
             document.getElementById('hostingReviewNotes').innerText = `Review Hosting Fees (data processed OUT at a rate of ${formatCurrency(relativityGbHostingRate)} for GB < 1 Terabyte and a rate of ${formatCurrency(relativityGbHostingHighRate)} for GB> 1 Terabyte including SQL/Data Grid Expansion (${Math.round(sqlRate*100)}%) for ${Math.round(projectDurationMonths)} month(s) per GB)`;
             document.getElementById('userFeesNotes').innerText = `User Fees per Month (no. of users (${Math.round(numUsersPerMonth)}) multiplied by the active workspace months (${Math.round(projectDurationMonths)}) and the user rate (${formatCurrency(userRate)})`;
