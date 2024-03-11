@@ -116,7 +116,7 @@
             document.getElementById('totalUserFees').innerText =  formatCurrency(totalUserFees);
 
             // users/ month
-            var usersPerMonthRangeText = `${Math.round(numUsersPerMonthOutput)} / ${Math.round(projectDurationMonthsOutput)}`;
+            var usersPerMonthRangeText = `${Math.round(numUsersPerMonthOutput)} user(s) / ${Math.round(projectDurationMonthsOutput)} month(s)`;
 
             document.getElementById('usersPerMonthRangeText').innerText = usersPerMonthRangeText;
 
@@ -192,8 +192,8 @@
 
 
             // Calculate Review Active Learbing
-            var reviewHighALCost = av_no_docs * reviewHighFilt * activeLearningRate;
-            var reviewLowALCost = av_no_docs * reviewLowFilt * activeLearningRate;
+            var reviewHighALCost = av_no_docs * gigsHigh * activeLearningRate;
+            var reviewLowALCost = av_no_docs * gigsLow * activeLearningRate;
 
             // active learning range
             var reviewHighALCostRange = `${formatCurrency(reviewHighALCost)} - ${formatCurrency(reviewLowALCost)}`;
