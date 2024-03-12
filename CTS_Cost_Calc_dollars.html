@@ -97,7 +97,7 @@
 
             // After calculating gigsHigh and gigsLow and their costs
             var dataProcessOutGigsRangeText = `${gigsHigh.toFixed(2)} - ${gigsLow.toFixed(2)}`;
-            var dataProcessOutCostRangeText = `${formatCurrency(gigsHigh * processing_out)}  - ${formatCurrency(gigsLow * processing_out)}`;
+            var dataProcessOutCostRangeText = `${formatCurrency(gigsHigh * processing_out)}  to ${formatCurrency(gigsLow * processing_out)}`;
 
             document.getElementById('dataProcessOutGigsRange').innerText = dataProcessOutGigsRangeText;
             document.getElementById('dataProcessOutCostRange').innerText = dataProcessOutCostRangeText;
@@ -196,7 +196,7 @@
             var reviewLowALCost = av_no_docs * gigsLow * activeLearningRate;
 
             // active learning range
-            var reviewHighALCostRange = `${formatCurrency(reviewHighALCost)} - ${formatCurrency(reviewLowALCost)}`;
+            var reviewHighALCostRange = `${formatCurrency(reviewHighALCost)} to ${formatCurrency(reviewLowALCost)}`;
 
             document.getElementById('reviewHighALCostRange').innerText = reviewHighALCostRange;
 
@@ -208,8 +208,8 @@
 
 
             //hosting Fees and gb range
-            var hostingGigsRangeText = `${hostingLowFilt.toFixed(2)} - ${hostingHighFilt.toFixed(2)}`;
-            var hostingFeesRangeText = `${formatCurrency(hostingLowFees)} - ${formatCurrency(hostingHighFees)}`;
+            var hostingGigsRangeText = `${hostingLowFilt.toFixed(2)} to ${hostingHighFilt.toFixed(2)}`;
+            var hostingFeesRangeText = `${formatCurrency(hostingLowFees)} to ${formatCurrency(hostingHighFees)}`;
 
             document.getElementById('hostingGigsRangeText').innerText = hostingGigsRangeText;
             document.getElementById('hostingFeesRangeText').innerText = hostingFeesRangeText;
@@ -241,11 +241,11 @@
           
 
             // projectManagementHoursRange
-            var projectManagementHoursRange = `${projectManagementLowHoursOutput.toFixed(2)*projectManagementLowMonths} - ${projectManagementHighHoursOutput.toFixed(2)*projectManagementHighMonths }`;
+            var projectManagementHoursRange = `${projectManagementLowHoursOutput.toFixed(2)*projectManagementLowMonths} to ${projectManagementHighHoursOutput.toFixed(2)*projectManagementHighMonths }`;
 
             document.getElementById('projectManagementHoursRange').innerText = projectManagementHoursRange;
 
-            var projectManagementCostRange = `${formatCurrency(projectManagementLowCost)} - ${formatCurrency(projectManagementHighCost)}`;
+            var projectManagementCostRange = `${formatCurrency(projectManagementLowCost)} to ${formatCurrency(projectManagementHighCost)}`;
 
             document.getElementById('projectManagementCostRange').innerText = projectManagementCostRange;
 
@@ -274,11 +274,11 @@
             var ediscAdvisoryHighCost = ediscAdvisoryHighMonths * ediscAdvisoryHighHoursOutput * edRate;
            
             // ediscAdvisoryHoursRange
-            var ediscAdvisoryHoursRange = `${ediscAdvisoryLowHoursOutput.toFixed(2)*ediscAdvisoryLowMonths} - ${ediscAdvisoryHighHoursOutput.toFixed(2)*ediscAdvisoryHighMonths}`;
+            var ediscAdvisoryHoursRange = `${ediscAdvisoryLowHoursOutput.toFixed(2)*ediscAdvisoryLowMonths} to ${ediscAdvisoryHighHoursOutput.toFixed(2)*ediscAdvisoryHighMonths}`;
 
             document.getElementById('ediscAdvisoryHoursRange').innerText = ediscAdvisoryHoursRange;
 
-            var ediscAdvisoryCostRange = `${formatCurrency(ediscAdvisoryLowCost)} - ${formatCurrency(ediscAdvisoryHighCost)}`;
+            var ediscAdvisoryCostRange = `${formatCurrency(ediscAdvisoryLowCost)} to ${formatCurrency(ediscAdvisoryHighCost)}`;
 
             document.getElementById('ediscAdvisoryCostRange').innerText = ediscAdvisoryCostRange;
 
@@ -296,8 +296,8 @@
 
             //notes
             document.getElementById('dataProcessingInNotes').innerText = `Data Processing (IN, source data with a percentage expansion of ${Math.round(expansionRate * 100)}% at a processing rate of ${formatCurrency(processing_in)} per GB). The expanded number of docs being: ${Math.round(ExpandedNoOfDocs).toLocaleString()}`;
-            document.getElementById('dataProcessingOutNotes').innerText = `Data Processing (OUT, expanded data with deduplication ${Math.round(dedup*100)}%) and filtering decreases. When high filtering is applied the reduction is ${Math.round(dataFiltHigh*100)}% when low filtering is applied, the reduction is ${Math.round(dataFiltLow*100)}% at a processing rate of ${formatCurrency(processing_out)} per GB. The range for processed OUT number of docs being: ${Math.round(gigsHigh*av_no_docs).toLocaleString()} - ${Math.round(gigsLow*av_no_docs).toLocaleString()}`;
-            document.getElementById('activeLearningNotes').innerText = `Active Learning at rate of $${activeLearningRate} per document. The range for active docs being: ${Math.round(gigsHigh*av_no_docs).toLocaleString()} - ${Math.round(gigsLow*av_no_docs).toLocaleString()}`;
+            document.getElementById('dataProcessingOutNotes').innerText = `Data Processing (OUT, expanded data with deduplication ${Math.round(dedup*100)}%) and filtering decreases. When high filtering is applied the reduction is ${Math.round(dataFiltHigh*100)}% when low filtering is applied, the reduction is ${Math.round(dataFiltLow*100)}% at a processing rate of ${formatCurrency(processing_out)} per GB. The range for processed OUT number of docs being: ${Math.round(gigsHigh*av_no_docs).toLocaleString()} to ${Math.round(gigsLow*av_no_docs).toLocaleString()}`;
+            document.getElementById('activeLearningNotes').innerText = `Active Learning at rate of $${activeLearningRate} per document. The range for active docs being: ${Math.round(gigsHigh*av_no_docs).toLocaleString()} to ${Math.round(gigsLow*av_no_docs).toLocaleString()}`;
             document.getElementById('hostingRepoNotes').innerText = `Repository Hosting Fees (data processed IN minus the data processed OUT divided by 3 at a rate of ${formatCurrency(relativityGbHostingRate)} for GB < 1 Terabyte and a rate of ${formatCurrency(relativityGbHostingHighRate)} for GB > 1 Terabyte for ${Math.round(projectDurationMonths)} month(s) per GB)`;
             document.getElementById('hostingReviewNotes').innerText = `Review Hosting Fees (data processed OUT at a rate of ${formatCurrency(relativityGbHostingRate)} for GB < 1 Terabyte and a rate of ${formatCurrency(relativityGbHostingHighRate)} for GB> 1 Terabyte including SQL/Data Grid Expansion (${Math.round(sqlRate*100)}%) for ${Math.round(projectDurationMonths)} month(s) per GB)`;
             document.getElementById('userFeesNotes').innerText = `User Fees per Month (no. of users (${Math.round(numUsersPerMonth)}) multiplied by the active workspace months (${Math.round(projectDurationMonths)}) and the user rate (${formatCurrency(userRate)})`;
