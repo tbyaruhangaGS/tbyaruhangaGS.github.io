@@ -252,9 +252,9 @@
             document.getElementById('ediscAdvisoryCostRange').innerText = ediscAdvisoryCostRange;
 
             //total costs
-            var totalCostLow = (gigs * processing_in) + (gigsHigh * processing_out) + totalUserFees + repositoryFeesLowFilt + reviewFeesHighFilt + projectManagementLowCost + ediscAdvisoryLowCost + reviewHighALCost
+            var totalCostLow = (gigs * processing_in) + (gigsHigh * processing_out) + totalUserFees + hostingLowFees +  projectManagementLowCost + ediscAdvisoryLowCost + reviewHighALCost
            
-            var totalCostHigh = (gigs * processing_in) + (gigsLow * processing_out) + totalUserFees + repositoryFeesHighFilt + reviewFeesLowFilt + projectManagementHighCost + ediscAdvisoryHighCost + reviewLowALCost
+            var totalCostHigh = (gigs * processing_in) + (gigsLow * processing_out) + totalUserFees + hostingHighFees + projectManagementHighCost + ediscAdvisoryHighCost + reviewLowALCost
            
             // totalCostRange
 
