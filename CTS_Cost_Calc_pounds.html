@@ -135,85 +135,55 @@
             // Calculate Review Hosting  (Low Filtering)
             var reviewLowFilt = gigsLow + (sqlRate * gigsLow);
 
-            var repositoryFeesHighFilt
-            if (repositoryHighFilt > 1023) {
-              
-                repositoryHighFiltUpTerabyte = repositoryHighFilt  - 1023;
-                repositoryFeesHighFiltUpTerabyte = repositoryHighFiltUpTerabyte  * relativityGbHostingHighRate * projectDurationMonthsOutput
-                repositoryFeesHighFiltDownTerabyte = 1023  * relativityGbHostingRate * projectDurationMonthsOutput;
-                repositoryFeesHighFilt = repositoryFeesHighFiltUpTerabyte +  repositoryFeesHighFiltDownTerabyte;
-            } else {
-        
-                repositoryFeesHighFilt = repositoryHighFilt * relativityGbHostingRate * projectDurationMonthsOutput;
-            }
-
-            var repositoryFeesLowFilt;
-            // Your conditional logic
-            if (repositoryLowFilt > 1023) {
-               
-                repositoryLowFiltUpTerabyte = repositoryLowFilt  - 1023;
-                repositoryFeesLowFiltUpTerabyte = repositoryLowFiltUpTerabyte  * relativityGbHostingHighRate * projectDurationMonthsOutput
-                repositoryFeesLowFiltDownTerabyte = 1023  * relativityGbHostingRate * projectDurationMonthsOutput;
-                repositoryFeesLowFilt = repositoryFeesLowFiltUpTerabyte +  repositoryFeesLowFiltDownTerabyte;
-            } else {
-            
-                repositoryFeesLowFilt = repositoryLowFilt * relativityGbHostingRate * projectDurationMonthsOutput;
-            }
-
-            
-            var reviewFeesHighFilt;
-            
-            // Your conditional logic
-            if (reviewHighFilt > 1023) {
-                reviewHighFiltUpTerabyte = reviewHighFilt  - 1023;
-                reviewFeesHighFiltUpTerabyte = reviewHighFiltUpTerabyte  * relativityGbHostingHighRate * projectDurationMonthsOutput
-                reviewFeesHighFiltDownTerabyte = 1023  * relativityGbHostingRate * projectDurationMonthsOutput;
-                reviewFeesHighFilt = reviewFeesHighFiltUpTerabyte +  reviewFeesHighFiltDownTerabyte;
-            } else {
-                
-                reviewFeesHighFilt = reviewHighFilt * relativityGbHostingRate * projectDurationMonthsOutput;
-            }
-            
-             
-            var reviewFeesLowFilt;
-            // Your conditional logic
-            if (reviewLowFilt > 1023) {
-               
-                reviewLowFiltUpTerabyte = reviewLowFilt  - 1023;
-                reviewFeesLowFiltUpTerabyte = reviewLowFiltUpTerabyte  * relativityGbHostingHighRate * projectDurationMonthsOutput
-                reviewFeesLowFiltDownTerabyte = 1023  * relativityGbHostingRate * projectDurationMonthsOutput;
-                reviewFeesLowFilt = reviewFeesLowFiltUpTerabyte +  reviewFeesLowFiltDownTerabyte;
-            } else {
-                
-                reviewFeesLowFilt = reviewLowFilt * relativityGbHostingRate * projectDurationMonthsOutput;
-            }
-            
-
-
-            // Calculate Review Active Learbing
-            var reviewHighALCost = av_no_docs * reviewHighFilt * activeLearningRate;
-            var reviewLowALCost = av_no_docs * reviewLowFilt * activeLearningRate;
-
-            // active learning range
-            var reviewHighALCostRange = `${formatCurrency(reviewHighALCost)} - ${formatCurrency(reviewLowALCost)}`;
-
-            document.getElementById('reviewHighALCostRange').innerText = reviewHighALCostRange;
-
             var hostingLowFilt= repositoryLowFilt + reviewHighFilt
             var hostingHighFilt= repositoryHighFilt+ reviewLowFilt
 
-            var hostingLowFees= repositoryFeesLowFilt+ reviewFeesHighFilt 
-            var hostingHighFees= repositoryFeesHighFilt+ reviewFeesLowFilt 
+            var hostingLowFees
+                       
+            if (hostingLowFilt > 1024) {
+              
+                hostingLowFiltUpTerabyte = hostingLowFilt  - 1024;
+                hostingLowFeesFiltUpTerabyte = hostingLowFiltUpTerabyte  * relativityGbHostingHighRate * projectDurationMonthsOutput
+                hostingLowFeesFiltDownTerabyte = 1024  * relativityGbHostingRate * projectDurationMonthsOutput;
+                hostingLowFees = hostingLowFeesFiltUpTerabyte +  hostingLowFeesFiltDownTerabyte;
+            } else {
+        
+                hostingLowFees = hostingLowFilt * relativityGbHostingRate * projectDurationMonthsOutput;
+            }
+
+            var hostingHighFees
+            if (hostingHighFees > 1024) {
+              
+              hostingHighFiltUpTerabyte = hostingHighFilt  - 1024;
+              hostingHighFeesFiltUpTerabyte = hostingHighFiltUpTerabyte  * relativityGbHostingHighRate * projectDurationMonthsOutput
+              hostingHighFeesFiltDownTerabyte = 1024  * relativityGbHostingRate * projectDurationMonthsOutput;
+              hostingHighFees = hostingHighFeesFiltUpTerabyte +  hostingHighFeesFiltDownTerabyte;
+            } 
+            else {
+      
+              hostingLowFees = hostingLowFilt * relativityGbHostingRate * projectDurationMonthsOutput;
+            }
+
+            // Calculate Review Active Learbing
+            var reviewHighALCost = av_no_docs * gigsHigh * activeLearningRate;
+            var reviewLowALCost = av_no_docs * gigsLow * activeLearningRate;
+
+            // active learning range
+            var reviewHighALCostRange = `${formatCurrency(reviewHighALCost)} to ${formatCurrency(reviewLowALCost)}`;
+
+            document.getElementById('reviewHighALCostRange').innerText = reviewHighALCostRange;
+
+            
+
+            
 
 
             //hosting Fees and gb range
-            var hostingGigsRangeText = `${hostingLowFilt.toFixed(2)} - ${hostingHighFilt.toFixed(2)}`;
-            var hostingFeesRangeText = `${formatCurrency(hostingLowFees)} - ${formatCurrency(hostingHighFees)}`;
+            var hostingGigsRangeText = `${hostingLowFilt.toFixed(2)} to ${hostingHighFilt.toFixed(2)}`;
+            var hostingFeesRangeText = `${formatCurrency(hostingLowFees)} to ${formatCurrency(hostingHighFees)}`;
 
             document.getElementById('hostingGigsRangeText').innerText = hostingGigsRangeText;
             document.getElementById('hostingFeesRangeText').innerText = hostingFeesRangeText;
-
-           
 
             // Calculate PM Costs
             //low costs
