@@ -181,7 +181,7 @@
             //hosting Fees and gb range
             var hostingGigsRangeText = `${hostingLowFilt.toFixed(2)} to ${hostingHighFilt.toFixed(2)}`;
             var hostingFeesRangeText = `${formatCurrency(hostingLowFees)} to ${formatCurrency(hostingHighFees)}`;
-
+            console.log(hostingHighFees)
             document.getElementById('hostingGigsRangeText').innerText = hostingGigsRangeText;
             document.getElementById('hostingFeesRangeText').innerText = hostingFeesRangeText;
 
@@ -815,12 +815,12 @@
                     </div>
                     <div class="form-row">
                         <div>
-                            <label for="processing_in">Processing In ($/GB):</label>
+                            <label for="processing_in">Processing In (£/GB):</label>
                             <input type="number" id="processing_in" name="processing_in" step="0.01" value="35">
                         </div>
                         <div>
-                            <label for="processing_out">Processing Out ($/GB):</label>
-                            <input type="number" id="processing_out" name="processing_out" step="0.01" value="125">
+                            <label for="processing_out">Processing Out (£/GB):</label>
+                            <input type="number" id="processing_out" name="processing_out" step="0.01" value="135">
                         </div>
                     </div>
                     <br><br><br><br><br><br>
@@ -847,7 +847,7 @@
                     <h3>Relativity Costs Measures</h3>
                     <div class="form-row">
                         <div>
-                            <label for="userRate">Relativity User Rate ($/Month/User):</label>
+                            <label for="userRate">Relativity User Rate (£/Month/User):</label>
                             <input type="number" id="userRate" name="userRate" value="50">
                         </div>
                         
@@ -855,18 +855,18 @@
                     <div class="form-row">
                         
                         <div>
-                            <label for="relativityGbHostingRate">Relativity GB Hosting Rate ($/Month/GB):</label>
+                            <label for="relativityGbHostingRate">Relativity GB Hosting Rate (£/Month/GB):</label>
                             <br>
                             <input type="number" id="relativityGbHostingRate" name="relativityGbHostingRate" value="10">
                         </div>
                         <div>
-                            <label for="relativityGbHostingHighRate">Relativity GB Hosting Rate > 1 Terabyte ($/Month/GB):</label>
+                            <label for="relativityGbHostingHighRate">Relativity GB Hosting Rate > 1 Terabyte (£/Month/GB):</label>
                             <input type="number" id="relativityGbHostingHighRate" name="relativityGbHostingHighRate" value="7">
                         </div>
                         <div>
                             <label for="activeLearningRate">Active Learning Rate:</label>
                             <br>
-                            <input type="number" id="activeLearningRate" name="activeLearningRate" step="0.01" value="0.025">
+                            <input type="number" id="activeLearningRate" name="activeLearningRate" step="0.01" value="0.02">
                         </div>
                         <div>
                             <label for="sqlRate">SQL Expansion Rate (%):</label>
@@ -878,11 +878,11 @@
                     <h3>Billable Time Measures</h3>
                     <div class="form-row">
                         <div>
-                            <label for="pmRate">Project Management Rate ($/Month):</label>
+                            <label for="pmRate">Project Management Rate (£/Month):</label>
                             <input type="number" id="pmRate" name="pmRate" value="450">
                         </div>
                         <div>
-                            <label for="edRate">eDiscovery Advisory Rate ($/Month):</label>
+                            <label for="edRate">eDiscovery Advisory Rate (£/Month):</label>
                             <input type="number" id="edRate" name="edRate" value="550">
                         </div>
                     </div>
