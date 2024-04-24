@@ -182,6 +182,7 @@
             var hostingGigsRangeText = `${hostingLowFilt.toFixed(2)} to ${hostingHighFilt.toFixed(2)}`;
             var hostingFeesRangeText = `${formatCurrency(hostingLowFees)} to ${formatCurrency(hostingHighFees)}`;
             console.log(hostingHighFees)
+
             document.getElementById('hostingGigsRangeText').innerText = hostingGigsRangeText;
             document.getElementById('hostingFeesRangeText').innerText = hostingFeesRangeText;
 
@@ -733,7 +734,6 @@
                         </div>
                         
                     </div>
-                    <h6><i>(data filtering applies a high and low filtering range considering email threading and keywords, which can be adjusted if needed within the measures column)</i></h6>
                     
                     <br><br>
                     <h2>Relativity Costs</h2>
