@@ -19,8 +19,10 @@
             var expansionRate = parseFloat(document.getElementById('expansionRate').value);
             var av_no_docs = parseFloat(document.getElementById('av_no_docs').value);
             var processing_in = parseFloat(document.getElementById('processing_in').value);
+            var processing_blended = parseFloat(document.getElementById('processing_blended').value);
             var processing_out = parseFloat(document.getElementById('processing_out').value);
             var dedup = parseFloat(document.getElementById('dedup').value);
+           
             var dataFiltHigh = parseFloat(document.getElementById('dataFiltHigh').value);
             var dataFiltLow = parseFloat(document.getElementById('dataFiltLow').value);
             var userRate = parseFloat(document.getElementById('userRate').value);
@@ -28,6 +30,7 @@
             var relativityGbHostingHighRate = parseFloat(document.getElementById('relativityGbHostingHighRate').value);
 
             var activeLearningRate = parseFloat(document.getElementById('activeLearningRate').value);
+            var airReviewRate = parseFloat(document.getElementById('airReviewRate').value);
             var repositoryReduction = 3;
             var sqlRate = parseFloat(document.getElementById('sqlRate').value)-1;
 
@@ -37,6 +40,7 @@
             var inputVal = document.getElementById('inputValue').value;
             var isGigsSelected = document.getElementById('optionGigs').checked;
             var isDedupChecked = document.getElementById('checkboxDedup').checked;
+            var isBlended = document.getElementById('checkboxBlended').checked;
             var isFilterChecked = document.getElementById('checkboxFilter').checked;
             var numUsersPerMonth = parseFloat(document.getElementById('numUsersPerMonth').value); // New input for number of users per month
             var projectDurationMonths = parseFloat(document.getElementById('projectDurationMonths').value); // New input for project duration in months
@@ -79,11 +83,21 @@
                 }).format(roundedValue);
             }
             
+            if (isBlended) {
+                // Use the new formula when custodiansValue and projectMonths are provided
+                processing_in = processing_blended;
+                processing_out=0;
+            } else {
+                // Use the existing formula
+                processing_blended =0;
+            }
 
             // Processing In
             document.getElementById('dataProcessInGigs').innerText = gigs.toFixed(2);
             document.getElementById('dataProcessInCost').innerText = formatCurrency(gigs * processing_in);
             document.getElementById('processingInRateOutput').innerText = formatCurrency(processing_in)
+
+            
 
             // Processing Out High
             var ReviewSetHigh = DedupedSet - (DedupedSet * (isFilterChecked ? dataFiltHigh : 0));
@@ -164,7 +178,7 @@
                 hostingHighFees = hostingHighFilt * relativityGbHostingRate * projectDurationMonthsOutput;
             }
 
-            // Calculate Review Active Learbing
+            // Calculate Review Active Learning
             var reviewHighALCost = av_no_docs * gigsHigh * activeLearningRate;
             var reviewLowALCost = av_no_docs * gigsLow * activeLearningRate;
 
@@ -174,8 +188,14 @@
             document.getElementById('reviewHighALCostRange').innerText = reviewHighALCostRange;
 
             
+           // Calculate Review Air Review
+            var reviewHighAirReviewCost = av_no_docs * gigsHigh * airReviewRate;
+            var reviewLowAirReviewCost = av_no_docs * gigsLow * airReviewRate;
 
-            
+            // air review range
+            var reviewHighAirReviewCostRange = `${formatCurrency(reviewHighAirReviewCost)} to ${formatCurrency(reviewLowAirReviewCost)}`;
+
+            document.getElementById('reviewHighAirReviewCostRange').innerText = reviewHighAirReviewCostRange;
 
 
             //hosting Fees and gb range
@@ -266,8 +286,10 @@
 
             //notes
             document.getElementById('dataProcessingInNotes').innerText = `Data Processing (IN, source data with a percentage expansion of ${Math.round(expansionRate * 100)}% at a processing rate of ${formatCurrency(processing_in)} per GB). The expanded number of docs being: ${Math.round(ExpandedNoOfDocs).toLocaleString()}`;
+            //document.getElementById('dataProcessingBlendedNotes').innerText = `Data Processing (BLENDED, source data with a percentage expansion of ${Math.round(expansionRate * 100)}% at a processing rate of ${formatCurrency(processing_blended)} per GB). The expanded number of docs being: ${Math.round(ExpandedNoOfDocs).toLocaleString()}`;
             document.getElementById('dataProcessingOutNotes').innerText = `Data Processing (OUT, expanded data with deduplication ${Math.round(dedup*100)}%) and filtering decreases. When high filtering is applied the reduction is ${Math.round(dataFiltHigh*100)}% when low filtering is applied, the reduction is ${Math.round(dataFiltLow*100)}% at a processing rate of ${formatCurrency(processing_out)} per GB. The range for processed OUT number of docs being: ${Math.round(gigsHigh*av_no_docs).toLocaleString()} - ${Math.round(gigsLow*av_no_docs).toLocaleString()}`;
-            document.getElementById('activeLearningNotes').innerText = `Active Learning at rate of $${activeLearningRate} per document. The range for active docs being: ${Math.round(gigsHigh*av_no_docs).toLocaleString()} - ${Math.round(gigsLow*av_no_docs).toLocaleString()}`;
+            document.getElementById('activeLearningNotes').innerText = `Active Learning at rate of £${activeLearningRate} per document. The range for active docs being: ${Math.round(gigsHigh*av_no_docs).toLocaleString()} - ${Math.round(gigsLow*av_no_docs).toLocaleString()} (lower or delete as applicable)`;
+            document.getElementById('airReviewNotes').innerText = `Air Review at rate of £${airReviewRate} per document. The range for active docs being: ${Math.round(gigsHigh*av_no_docs).toLocaleString()} - ${Math.round(gigsLow*av_no_docs).toLocaleString()} (lower or delete as applicable)`;
             document.getElementById('hostingRepoNotes').innerText = `Repository Hosting Fees (data processed IN minus the data processed OUT divided by 3 at a rate of ${formatCurrency(relativityGbHostingRate)} for GB < 1 Terabyte and a rate of ${formatCurrency(relativityGbHostingHighRate)} for GB > 1 Terabyte for ${Math.round(projectDurationMonths)} month(s) per GB)`;
             document.getElementById('hostingReviewNotes').innerText = `Review Hosting Fees (data processed OUT at a rate of ${formatCurrency(relativityGbHostingRate)} for GB < 1 Terabyte and a rate of ${formatCurrency(relativityGbHostingHighRate)} for GB> 1 Terabyte including SQL/Data Grid Expansion (${Math.round(sqlRate*100)}%) for ${Math.round(projectDurationMonths)} month(s) per GB)`;
             document.getElementById('userFeesNotes').innerText = `User Fees per Month (no. of users (${Math.round(numUsersPerMonth)}) multiplied by the active workspace months (${Math.round(projectDurationMonths)}) and the user rate (${formatCurrency(userRate)})`;
@@ -678,7 +700,7 @@
 <body>
 <div class="container clear-fix">
     <div class="header-container">
-        <img src="https://www.relativity.com/relativity/cache/file/088AD6CC-7351-46E6-A281CE331096F422_W700_Hauto.png" alt="Gravity Stack Logo" class="logo" style="align-self: flex-start; width: 230px;">
+        <img src="https://gravitystack.com/wp-content/uploads/2024/05/logo-black.png" alt="Gravity Stack Logo" class="logo" style="align-self: flex-start; width: 230px;">
         <div>
             <h2>CTS eDiscovery Cost Calculator</h2>
         </div>
@@ -687,14 +709,16 @@
 
    
             <div class="forms-container">
-                <form id="inputForm" class="form-half">
+                <form id="inputForm" class="form">
                     <h2>Data Processing</h2>
-                    <h5>Please fill in the values below and select calculate to work out the data processed in and out in the table below</h5><br>
+                    <h5>Please fill in the values below and select calculate to work out the data processed in and out in the table below</h5>
+                    <h5>Some values are predetermined but they can be customised for specific use cases.</h5><br>
                     <h3>Data Processing Option 1</h3>
                     <h5>If the number of custodians and project duration is unknown, please enter the data volume</h5>
+                    
                     <div class="form-row">
                         <div>
-                            <label for="custodiansValue">Number of Custodians:</label><br>
+                            <label for="custodiansValue">Number of Custodians:</label>
                             <input type="number" id="custodiansValue" name="custodiansValue">
 
                         </div>
@@ -703,6 +727,12 @@
                             <input type="number" id="projectMonths" name="projectMonths">
 
                         </div>
+                        <div>
+                            <label for="av_no_mixed">Average number of mixed data sources received per month per custodian:</label>
+                            <input type="number" id="av_no_mixed" name="av_no_mixed" value="2500">
+
+                        </div>
+                        
                     </div>
                     <h3>Data Processing Option 2</h3>
                     <h5>Please leave the data volume and gigs or doc count section blank if number of custodians and project duration known</h5>
@@ -716,11 +746,49 @@
                             <br />
                             <input type="radio" id="optionGigs" class="custom-radio" name="dataType" value="gigs">
                             <label for="optionGigs">Gigs</label>
+                            <br />
                             <input type="radio" id="optionDocs" class="custom-radio" name="dataType" value="docs">
                             <label for="optionDocs">Doc Count</label>
+                            
+                       </div>
+                        
+                        
+                        </div>
+
+                        
+                          <br />
+                        <div class="form-row">
+                            <div>
+                            <label for="av_no_docs">Average No. of Docs Per Gig:</label>
+                            <input type="number" id="av_no_docs" name="av_no_docs" value="5000">
+                        </div>
+                        <div>
+                            <label for="expansionRate">Expansion Rate:</label>
+                          
+                            <input type="number" id="expansionRate" name="expansionRate" step="0.1" value="1.75">
+                        </div>
+                        </div>
+                        <div>
+                           
+                            <input type="checkbox" id="checkboxBlended" class="custom-checkbox" name="blended">
+                            <label for="checkboxBlended">Blended</label>
 
                         </div>
+                        <div class="form-row">
+                        <div>
+                            <label for="processing_in">Processing In (£/GB):</label>
+                            <input type="number" id="processing_in" name="processing_in" step="0.01" value="35">
+                        </div>
+                        <div>
+                            <label for="processing_out">Processing Out (£/GB):</label>
+                            <input type="number" id="processing_out" name="processing_out" step="0.01" value="135">
+                        </div>
+                        <div>
+                            <label for="processing_blended">Processing Blended (£/GB):</label>
+                            <input type="number" id="processing_blended" name="processing_blended" step="0.01" value="85">
+                        </div>
                     </div>
+                   
                     <br>
                     <h2>Data Filtering</h2>
                     <h5>Please indicate if you'll be applying deduplication and filtering to the processed data</h5>
@@ -731,101 +799,12 @@
                             <label for="checkboxDedup">Deduplication</label>
                             <input type="checkbox" id="checkboxFilter" class="custom-checkbox" name="filter">
                             <label for="checkboxFilter">Data Filtering</label>
+
+                            
                         </div>
                         
                     </div>
                     <h6><i>(data filtering applies a high and low filtering range considering email threading and keywords, which can be adjusted if needed within the measures column)</i></h6>
-                    
-                    <br><br>
-                    <h2>Relativity Costs</h2>
-                    <h5>Please fill in the values below and select calculate to work out user, active learning and hosting fees in the table below</h5>
-                    <div class="form-row">
-                        <div>
-                            <label for="numUsersPerMonth">Number of Relativity Users per Month:</label>
-                            <input type="number" id="numUsersPerMonth" name="numUsersPerMonth">
-                        </div>
-                        <div>
-                            <label for="projectDurationMonths">Relativity Active Date Period (Months):</label>
-                            <input type="number" id="projectDurationMonths" name="projectDurationMonths">
-                        </div>
-                    </div>
-                    <br><br><br><br><br><br><br><br>
-                    <h2>Billable Time</h2>
-                    <h5>Please fill in the values below to work out the time associated with project management and eDiscovery.</h5>
-                    <div class="form-row">
-                        <div>
-                            <label for="pmDurationMonths">Project Management Time (Months):</label>
-                            <input type="text" id="pmDurationMonths" name="pmDurationMonths">
-                        </div>
-
-                    </div>
-                    <div class="form-row">
-
-                        <div>
-                            <label for="projectManagementLowHours">Project Management Hours/ Month (low estimate):</label>
-                            <input type="number" id="projectManagementLowHours" name="projectManagementLowHours">
-                        </div>
-                        <div>
-                            <label for="projectManagementHighHours">Project Management Hours/ Month (high estimate):</label>
-                            <input type="number" id="projectManagementHighHours" name="projectManagementHighHours">
-                        </div>
-                    </div>
-                    <div class="form-row">
-
-                        <div>
-                            <label for="ediscAdvisoryDurationMonths">eDiscovery Advisory Time (Months):</label>
-                            <input type="number" id="ediscAdvisoryDurationMonths" name="ediscAdvisoryDurationMonths">
-                        </div>
-                    </div>
-                    <div class="form-row">
-                        <div>
-                            <label for="ediscAdvisoryLowHours">eDiscovery Advisory Hours/ Month (low estimate):</label>
-                            <input type="number" id="ediscAdvisoryLowHours" name="ediscAdvisoryLowHours">
-                        </div>
-                        <div>
-                            <label for="ediscAdvisoryHighHours">eDiscovery Advisory Hours/ Month (high estimate):</label>
-                            <input type="number" id="ediscAdvisoryHighHours" name="ediscAdvisoryHighHours">
-                        </div>
-                    </div>
-                </form>
-
-                <form id="measuresForm" class="form-half">
-                    <h2>Measures</h2>
-                    <h5>These values are predetermined but they can be customised for specific use cases.</h5><br><br>
-                    <h3>Data Processing Measures</h3>
-                    <label for="av_no_mixed">Average number of mixed data sources received per month per custodian:</label>
-                    <div class="form-row">
-                       
-                        <div>
-                            <input type="number" id="av_no_mixed" name="av_no_mixed" value="2500">
-                        </div>
-                        
-                    </div>
-                    <div class="form-row">
-                        <div>
-                            <label for="expansionRate">Expansion Rate:</label>
-                            <br />
-                            <input type="number" id="expansionRate" name="expansionRate" step="0.1" value="1.75">
-                        </div>
-                        <div>
-                            <label for="av_no_docs">Average No. of Docs Per Gig:</label>
-                            <input type="number" id="av_no_docs" name="av_no_docs" value="5000">
-                        </div>
-                       
-                        
-                    </div>
-                    <div class="form-row">
-                        <div>
-                            <label for="processing_in">Processing In (£/GB):</label>
-                            <input type="number" id="processing_in" name="processing_in" step="0.01" value="35">
-                        </div>
-                        <div>
-                            <label for="processing_out">Processing Out (£/GB):</label>
-                            <input type="number" id="processing_out" name="processing_out" step="0.01" value="135">
-                        </div>
-                    </div>
-                    <br><br><br><br><br><br>
-                    <h3>Data Filtering Measures</h3>
                     <div class="form-row">
                         <div>
                             <label for="dedup">Deduplication Rate:</label>
@@ -844,50 +823,105 @@
                         </div>
                         
                     </div>
-                    <br><br><br>
-                    <h3>Relativity Costs Measures</h3>
+                    <br>
+                    <h2>Relativity Costs</h2>
+                    <h5>Please fill in the values below and select calculate to work out user, active learning and hosting fees in the table below</h5>
                     <div class="form-row">
                         <div>
-                            <label for="userRate">Relativity User Rate (£/Month/User):</label>
-                            <input type="number" id="userRate" name="userRate" value="50">
+                            <label for="numUsersPerMonth">Number of Relativity Users per Month:</label>
+                            <input type="number" id="numUsersPerMonth" name="numUsersPerMonth">
                         </div>
-                        
-                    </div>
-                    <div class="form-row">
-                        
                         <div>
                             <label for="relativityGbHostingRate">Relativity GB Hosting Rate (£/Month/GB):</label>
-                            <br>
+                           
                             <input type="number" id="relativityGbHostingRate" name="relativityGbHostingRate" value="10">
                         </div>
                         <div>
                             <label for="relativityGbHostingHighRate">Relativity GB Hosting Rate > 1 Terabyte (£/Month/GB):</label>
                             <input type="number" id="relativityGbHostingHighRate" name="relativityGbHostingHighRate" value="7">
                         </div>
+                        
+                        <div>
+                            <label for="projectDurationMonths">Relativity Active Date Period (Months):</label>
+                            <input type="number" id="projectDurationMonths" name="projectDurationMonths">
+                        </div>
+                        <div>
+                            <label for="userRate">Relativity User Rate (£/Month/User):</label>
+                            <input type="number" id="userRate" name="userRate" value="50">
+                        </div>
+                    </div>
+
+
+                    <br>
+                    <h2>Relativity Review</h2>
+                    <div class="form-row">
+                        
+                        
                         <div>
                             <label for="activeLearningRate">Active Learning Rate:</label>
                             
-                            <input type="number" id="activeLearningRate" name="activeLearningRate" step="0.01" value="0.02">
+                            <input type="number" id="activeLearningRate" name="activeLearningRate" step="0.01" value="0.015">
                         </div>
                         <div>
                             <label for="sqlRate">SQL Expansion Rate:</label>
                             <input type="number" id="sqlRate" name="sqlRate" step="0.01" value="1.25">
                         </div>
+                        <div>
+                            <label for="airReviewRate">Air for Review Rate:</label>
+
+                            <input type="number" id="airReviewRate" name="airReviewRate" step="0.01" value="0.20">
+                        </div>
+                       
                     </div>
-                    
-                    <br><br><br><br>
-                    <h3>Billable Time Measures</h3>
+
+
+
+                    <br>
+                    <h2>Billable Time</h2>
+                    <h5>Please fill in the values below to work out the time associated with project management and eDiscovery.</h5>
                     <div class="form-row">
                         <div>
                             <label for="pmRate">Project Management Rate (£/Month):</label>
                             <input type="number" id="pmRate" name="pmRate" value="450">
                         </div>
+
+                        <div>
+                            <label for="pmDurationMonths">Project Management Time (Months):</label>
+                            <input type="text" id="pmDurationMonths" name="pmDurationMonths">
+                        </div>
+
+                   
+
+                        <div>
+                            <label for="projectManagementLowHours">Project Management Hours/ Month (low estimate):</label>
+                            <input type="number" id="projectManagementLowHours" name="projectManagementLowHours">
+                        </div>
+                        <div>
+                            <label for="projectManagementHighHours">Project Management Hours/ Month (high estimate):</label>
+                            <input type="number" id="projectManagementHighHours" name="projectManagementHighHours">
+                        </div>
                         <div>
                             <label for="edRate">eDiscovery Advisory Rate (£/Month):</label>
                             <input type="number" id="edRate" name="edRate" value="550">
                         </div>
+
+                        <div>
+                            <label for="ediscAdvisoryDurationMonths">eDiscovery Advisory Time (Months):</label>
+                            <input type="number" id="ediscAdvisoryDurationMonths" name="ediscAdvisoryDurationMonths">
+                        </div>
+                    
+                        <div>
+                            <label for="ediscAdvisoryLowHours">eDiscovery Advisory Hours/ Month (low estimate):</label>
+                            <input type="number" id="ediscAdvisoryLowHours" name="ediscAdvisoryLowHours">
+                        </div>
+                        <div>
+                            <label for="ediscAdvisoryHighHours">eDiscovery Advisory Hours/ Month (high estimate):</label>
+                            <input type="number" id="ediscAdvisoryHighHours" name="ediscAdvisoryHighHours">
+                        </div>
                     </div>
                 </form>
+
+                
             </div>
             <!-- Buttons placed outside the forms but within the container for a unified action -->
             <div class="custom-button-container">
@@ -925,6 +959,9 @@
                     <td id="dataProcessingOutNotes" class="commentColumn"></td>
                 </tr>
 
+                
+
+
                 <!-- New table for Relativity Costs -->
 
 
@@ -950,6 +987,14 @@
                     <td></td>
                     <td id="reviewHighALCostRange"></td>
                     <td id="activeLearningNotes" class="commentColumn"></td>
+                </tr>
+                <tr>
+                    <td>Air for Review</td>
+                    <td>Per Document</td>
+                    <td></td>
+                    <td></td>
+                    <td id="reviewHighAirReviewCostRange"></td>
+                    <td id="airReviewNotes" class="commentColumn"></td>
                 </tr>
                 <tr>
                     <td>User Fees</td>
