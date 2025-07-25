@@ -10,6 +10,19 @@
     <script>
 
 //to open the webpage- https://tbyaruhangags.github.io/CTS_Cost_Calc_dollars.html
+        function safe(value) {
+            return isNaN(value) ? 0 : value;
+            }
+
+        function safeRound(value) {
+            return isNaN(value) ? 0 : Math.round(value);
+        }
+        function safeMultiply(a, b) {
+            return (isNaN(a) || isNaN(b)) ? 0 : a * b;
+        }
+        function safeFixed(value, decimals = 2) {
+            return isNaN(value) ? "0.00" : value.toFixed(decimals);
+        }
 
         // This function will be called when the user submits the form
         function calculateCost() {
@@ -73,6 +86,7 @@
             var DedupedSet = ExpandedNoOfDocs - (ExpandedNoOfDocs * (isDedupChecked ? dedup : 0))
 
             function formatCurrency(value) {
+                if (isNaN(value)) return "";
                 // First, round the value to no decimal places
                 let roundedValue = Math.round(value);
                 // Then, format the rounded value as currency
@@ -132,7 +146,8 @@
             document.getElementById('totalUserFees').innerText =  formatCurrency(totalUserFees);
 
             // users/ month
-            var usersPerMonthRangeText = `${Math.round(numUsersPerMonthOutput)} user(s) / ${Math.round(projectDurationMonthsOutput)} month(s)`;
+            var usersPerMonthRangeText = `${safeRound(numUsersPerMonthOutput)} / ${safeRound(projectDurationMonthsOutput)}`;
+
 
             document.getElementById('usersPerMonthRangeText').innerText = usersPerMonthRangeText;
 
@@ -187,7 +202,7 @@
             var reviewLowALCost = av_no_docs * gigsLow * activeLearningRate;
 
             // active learning range
-            var reviewHighALCostRange = `${formatCurrency(reviewHighALCost)} to ${formatCurrency(reviewLowALCost)}`;
+            var reviewHighALCostRange = `${formatCurrency(reviewHighALCost)} - ${formatCurrency(reviewLowALCost)}`;
 
             document.getElementById('reviewHighALCostRange').innerText = reviewHighALCostRange;
 
@@ -197,15 +212,15 @@
             var reviewLowAirReviewCost = av_no_docs * gigsLow * airReviewRate;
 
             // air review range
-            var reviewHighAirReviewCostRange = `${formatCurrency(reviewHighAirReviewCost)} to ${formatCurrency(reviewLowAirReviewCost)}`;
+            var reviewHighAirReviewCostRange = `${formatCurrency(reviewHighAirReviewCost)} - ${formatCurrency(reviewLowAirReviewCost)}`;
 
             document.getElementById('reviewHighAirReviewCostRange').innerText = reviewHighAirReviewCostRange;
 
 
 
             //hosting Fees and gb range
-            var hostingGigsRangeText = `${hostingLowFilt.toFixed(2)} to ${hostingHighFilt.toFixed(2)}`;
-            var hostingFeesRangeText = `${formatCurrency(hostingLowFees)} to ${formatCurrency(hostingHighFees)}`;
+            var hostingGigsRangeText = `${hostingLowFilt.toFixed(2)} - ${hostingHighFilt.toFixed(2)}`;
+            var hostingFeesRangeText = `${formatCurrency(hostingLowFees)} - ${formatCurrency(hostingHighFees)}`;
 
             document.getElementById('hostingGigsRangeText').innerText = hostingGigsRangeText;
             document.getElementById('hostingFeesRangeText').innerText = hostingFeesRangeText;
@@ -279,10 +294,23 @@
             document.getElementById('ediscAdvisoryCostRange').innerText = ediscAdvisoryCostRange;
 
             //total costs
-            var totalCostLow = (gigs * processing_in) + (gigsHigh * processing_out) + totalUserFees + hostingLowFees + projectManagementLowCost + ediscAdvisoryLowCost + reviewHighALCost
            
-            var totalCostHigh = (gigs * processing_in) + (gigsLow * processing_out) + totalUserFees + hostingHighFees + projectManagementHighCost + ediscAdvisoryHighCost + reviewLowALCost
-           
+            var totalCostLow = safe(gigs * processing_in)
+                 + safe(gigsHigh * processing_out)
+                 + safe(totalUserFees)
+                 + safe(hostingLowFees)
+                 + safe(projectManagementLowCost)
+                 + safe(ediscAdvisoryLowCost)
+                 + safe(reviewHighALCost);
+
+            var totalCostHigh = safe(gigs * processing_in)
+                  + safe(gigsLow * processing_out)
+                  + safe(totalUserFees)
+                  + safe(hostingHighFees)
+                  + safe(projectManagementHighCost)
+                  + safe(ediscAdvisoryHighCost)
+                  + safe(reviewLowALCost);
+
             // totalCostRange
 
             var totalCostRange = `${formatCurrency(totalCostLow)} to ${formatCurrency(totalCostHigh)}`;
