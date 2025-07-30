@@ -339,7 +339,7 @@
             document.getElementById('dataProcessingOutNotes').innerText = `Data Processing (OUT, expanded data with deduplication ${Math.round(dedupPercentage)}%) and filtering decreases. When high filtering is applied the reduction is ${Math.round(dataFiltHighPercentage)}% when low filtering is applied, the reduction is ${Math.round(dataFiltLowPercentage)}% at a processing rate of ${formatCurrency(processing_out)} per GB. The range for processed OUT number of docs being: ${Math.round(gigsHigh*av_no_docs).toLocaleString()} - ${Math.round(gigsLow*av_no_docs).toLocaleString()}`;
             document.getElementById('documentsComment').innerText = `The range for processed OUT number of docs is: ${Math.round(gigsHigh*av_no_docs).toLocaleString()} to ${Math.round(gigsLow*av_no_docs).toLocaleString()}`;
             
-            
+
             //document.getElementById('activeLearningNotes').innerText = `Active Learning at rate of £${activeLearningRate} per document. The range for active docs being: ${Math.round(gigsHigh*av_no_docs).toLocaleString()} - ${Math.round(gigsLow*av_no_docs).toLocaleString()} (lower or delete as applicable)`;
             //document.getElementById('airReviewNotes').innerText = `Air Review at rate of £${airReviewRate} per document. The range for active docs being: ${Math.round(gigsHigh*av_no_docs).toLocaleString()} - ${Math.round(gigsLow*av_no_docs).toLocaleString()} (lower or delete as applicable)`;
             document.getElementById('activeLearningNotes').innerText = `Active Learning at £${activeLearningRate} per document, applied to ${activeLearningSubsetPercentage}% of the review set. Document range: ${Math.round(gigsHigh * av_no_docs * activeLearningSubset).toLocaleString()} to ${Math.round(gigsLow * av_no_docs * activeLearningSubset).toLocaleString()}`;
@@ -784,7 +784,7 @@
 
                         </div>
                         <div>
-                            <label for="av_no_mixed">Average no. of docs for x custodians across x months:</label>
+                            <label for="av_no_mixed">Average no. of docs per custodian per month:</label>
                             <input type="number" id="av_no_mixed" name="av_no_mixed" value="2500">
 
                         </div>
@@ -834,15 +834,15 @@
                         </div>
                         <div class="form-row">
                         <div>
-                            <label for="processing_in">Processing In ($/GB):</label>
+                            <label for="processing_in">Processing In (£/GB):</label>
                             <input type="number" id="processing_in" name="processing_in" step="0.01" value="35">
                         </div>
                         <div>
-                            <label for="processing_out">Processing Out ($/GB):</label>
+                            <label for="processing_out">Processing Out (£/GB):</label>
                             <input type="number" id="processing_out" name="processing_out" step="0.01" value="135">
                         </div>
                         <div>
-                            <label for="processing_blended">Processing Blended ($/GB):</label>
+                            <label for="processing_blended">Processing Blended (£/GB):</label>
                             <input type="number" id="processing_blended" name="processing_blended" step="0.01" value="85">
                         </div>
                     </div>
